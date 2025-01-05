@@ -1,0 +1,55 @@
+<aside class="sidebar">
+  <div class="line">
+    <div class="circle" [style.background-color]="randomColor">
+      {{ firstLetter }}
+    </div>
+    <div class="username">Hola {{ username }}</div>
+  </div>
+  <div class="header">
+    <h2>Mis Proyectos</h2>
+    <button id="add-project-btn" title="Añadir Proyecto" (click)="openModal()">+</button>
+  </div>
+  <div id="project-list">
+      <ul>
+        <li *ngFor="let proyecto of proyectos" class="project-item" (click)="loadProyecto(proyecto.idProyecto)">
+          <span class="project-color" [style.color]="proyecto.color.codigoHex">#</span>
+          <span class="project-name">{{ proyecto.nombre }}</span>
+        </li>
+      </ul>
+    </div>
+  <button class="cerrar-sesion" (click)="logout()">Cerrar Sesión</button>
+</aside>
+
+  <div class="modal" *ngIf="isModalOpen">
+    <div class="modal-content">
+      <span class="close" (click)="closeModal()">&times;</span>
+      <h2>Añadir Proyecto</h2>
+      <form (ngSubmit)="addProyecto()">
+        <label for="project-name">Nombre del Proyecto</label>
+        <input type="text" id="project-name" [(ngModel)]="newProyecto.nombre" name="nombre" required>
+        <br>
+        <label for="project-color">Color</label>
+        <div class="custom-select-container" [class.open]="isDropdownOpen">
+            <div class="custom-select" (click)="toggleDropdown()">
+                <span>
+                    <span *ngIf="selectedColor" class="color-circle" [style.background-color]="selectedColor?.codigoHex"></span>
+                    {{ selectedColor?.nombre || 'Selecciona un color' }}
+                </span>
+              <div class="dropdown-arrow"></div>
+            </div>
+            <div class="custom-options" *ngIf="isDropdownOpen">
+              <div class="custom-option" *ngFor="let color of colores" (click)="selectColor(color)">
+                <span class="color-circle" [style.background-color]="color.codigoHex"></span>
+                {{ color.nombre }}
+              </div>
+            </div>
+          </div>
+        <br>
+        <br>
+        <button type="submit">Añadir</button>
+      </form>
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,260 @@
+<div class="container">
+  <app-sidebar></app-sidebar>
+  <main class="main-content" *ngIf="proyecto">
+    <div class="icono-proyecto">
+      <h1 id="project-title">{{ proyecto.nombre }}</h1>
+      <button class="add-person" (click)="openModalInvite()">
+        <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="#666666">
+          <path
+            d="M708-432v-84h-84v-72h84v-84h72v84h84v72h-84v84h-72Zm-324-48q-60 0-102-42t-42-102q0-60 42-102t102-42q60 0 102 42t42 102q0 60-42 102t-102 42ZM96-192v-92q0-25.78 12.5-47.39T143-366q55-32 116-49t125-17q64 0 125 17t116 49q22 13 34.5 34.61T672-284v92H96Zm72-72h432v-20q0-6.47-3.03-11.76-3.02-5.3-7.97-8.24-47-27-99-41.5T384-360q-54 0-106 14.5T179-304q-4.95 2.94-7.98 8.24Q168-290.47 168-284v20Zm216.21-288Q414-552 435-573.21t21-51Q456-654 434.79-675t-51-21Q354-696 333-674.79t-21 51Q312-594 333.21-573t51 21Zm-.21-73Zm0 361Z" />
+        </svg>
+      </button>
+    </div>
+    <div id="task-list">
+      <div class="task" *ngFor="let tarea of tareas">
+        <div class="task-header">
+          <div class="task-actions">
+            <div class="task-check">
+              <button (click)="aprobarTarea(tarea.idTarea)" class="check-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#78A75A">
+                  <path
+                    d="m424-296 282-282-56-56-226 226-114-114-56 56 170 170Zm56 216q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z" />
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="task-title-section">
+            <span class="task-label">TAREA</span>
+            <span class="task-text">{{ tarea.nombre }}</span>
+          </div>
+          
+          <div class="task-priority">
+            <span class="task-label">PRIORIDAD</span>
+            <span class="task-text">{{ tarea.prioridad }}</span>
+          </div>
+        </div>
+
+        <div class="task-description">
+          <span class="task-label">DESCRIPCIÓN</span>
+          <span class="task-text description-text">{{ tarea.descripcion }}</span>
+        </div>
+
+        <div class="task-footer">
+          <div class="task-date">
+            <span class="task-label">FECHA</span>
+            <span class="task-text">{{ tarea.fechaVencimiento }}</span>
+          </div>
+
+          <div class="task-status">
+            <span class="task-label">ESTADO</span>
+            <span class="task-text">{{ tarea.estado }}</span>
+          </div>
+
+          <div class="task-status">
+            <span class="task-label">ASIGNADO A</span>
+            <span class="task-text">{{ tarea.asignadoA || 'Sin asignar' }}</span>
+          </div>
+
+          <div class="task-actions">
+            <button (click)="openModalEdit(tarea)" [disabled]="tarea.estado === 'DESARROLLADA'" class="edit-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                fill="#002e99">
+                <path d="M200-200h57l391-391-57-57-391 391v57Z" />
+              </svg>
+            </button>
+            <button (click)="openModalComment(tarea)" class="comment-btn" [disabled]="tarea.estado === 'DESARROLLADA'">
+              <span class="comment-count">{{ tarea.comentarios?.length || 0 }}</span> 
+              <svg xmlns="http://www.w3.org/2000/svg" height="21px" viewBox="0 -960 960 960" width="24px" fill="#ffb855ec">
+                <path d="M480-80 373-240H160q-33 0-56.5-23.5T80-320v-480q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240H587L480-80Z" />
+              </svg>
+            </button>
+            <button (click)="eliminarTarea(tarea.idTarea)" class="delete-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                fill="#992B15">
+                <path
+                  d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Z" />
+              </svg>
+            </button>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="add-task">
+      <button class="add-task-text" title="" (click)="openModalAdd()">+ Añadir tarea</button>
+    </div>
+  </main>
+
+  <div class="modal" *ngIf="isModalCommentOpen">
+    <div class="modal-content">
+      <span class="close" (click)="closeModalComment()">&times;</span>
+      <h2>Añadir Comentario</h2>
+      
+      <form (ngSubmit)="abrirComment()">
+        <div class="row"> 
+          <div class="col-md-6">
+            <div>
+              <h6>Nombre de la Tarea:</h6>
+              <div class="readonly-field">{{ selectedTarea.nombre }}</div>
+            </div>
+            <br>
+            <div>
+              <h6>Descripción:</h6>
+              <div class="readonly-field">{{ selectedTarea.descripcion }}</div>
+            </div>
+            <br>
+            <div>
+              <h6>Fecha de Vencimiento:</h6>
+              <div class="readonly-field">{{ selectedTarea.fechaVencimiento }}</div>
+            </div>
+            <br>
+            <div>
+              <h6>Prioridad:</h6> 
+              <div class="readonly-field">{{ selectedTarea.prioridad }}</div>
+            </div>
+            <br>
+
+            <div class="task-comment">
+              <h6>Nuevo Comentario:</h6>
+              <textarea 
+                [(ngModel)]="comentarioTexto" 
+                name="comentario" 
+                placeholder="Escribe tu comentario aquí"
+                required
+                class="form-control"></textarea>
+            </div>
+            <br>
+            <button type="submit" [disabled]="!comentarioTexto.trim()" class="btn btn-success">Guardar Comentario</button>
+          </div>
+
+          <div class="col-md-6"> 
+            <div class="comentarios-section">
+              <h6>Historial de Comentarios ({{ comentarios.length }})</h6>
+              <div class="comentarios-lista">
+                <div *ngFor="let comment of comentarios" class="comentario-item">
+                  <div class="comentario-header">
+                    <strong>{{ comment.autor }}</strong>
+                    <div class="comentario-fecha">
+                      <small>{{ comment.fechaCreacion | date: 'short' }}</small> 
+                    </div>
+                  </div>
+                  <div class="comentario-contenido">
+                    {{ comment.contenido }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div> 
+      </form>
+  
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>
+    </div>
+  </div>
+
+    <div *ngIf="isModalInviteOpen" class="modaldos">
+      <div class="modal-contentdos">
+        <h2>Invitar Usuario</h2>
+        <label for="username" class="modal-labeldos">Nombre de Usuario:</label>
+        <input type="text" [(ngModel)]="username" id="username" class="modal-inputdos" placeholder="Ingresa el nombre de usuario" />
+        
+        <div class="modal-buttonsdos">
+          <button class="modal-buttondos invite" (click)="invitarUsuario(username)">Invitar</button>
+          <button class="modal-buttondos close" (click)="closeModalInvite()">Cerrar</button>
+        </div>
+        
+        <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
+      </div>
+    </div>
+
+
+ 
+  <div class="modal" *ngIf="isModalAddOpen">
+    <div class="modal-content">
+      <span class="close" (click)="closeModalAdd()">&times;</span>
+      <h2>Añadir Tarea</h2>
+      <form #form="ngForm" (ngSubmit)="addTarea()" novalidate>
+        <label for="task-name">Nombre de la Tarea</label>
+        <input type="text" id="task-name" [(ngModel)]="newTarea.nombre" name="nombre" required>
+
+        <label for="project-description">Descripcion</label>
+        <textarea id="project-description" [(ngModel)]="newTarea.descripcion" name="descripcion" rows="4" cols="70"
+          placeholder="Escribe la descripción aquí"></textarea>
+
+        <label for="task-due-date">Fecha de Vencimiento</label>
+        <input type="date" id="task-due-date" [(ngModel)]="newTarea.fechaVencimiento" name="fechaVencimiento" required
+          #fechaVencimiento="ngModel">
+
+        <div *ngIf="fechaVencimiento.invalid && (fechaVencimiento.touched || form.submitted)" class="error-message2">
+          La fecha de vencimiento es obligatoria.
+        </div>
+
+        <label for="task-priority">Prioridad</label>
+        <select id="task-priority" [(ngModel)]="newTarea.prioridad" name="prioridad">
+          <option value="ALTA">ALTA</option>
+          <option value="MEDIA">MEDIA</option>
+          <option value="BAJA">BAJA</option>
+        </select>
+
+        <div>
+          <label for="usuario">Asignar a:</label>
+          <select [(ngModel)]="newTarea.asignadoA" name="asignadoA">
+            <option *ngFor="let usuario of usuarios" [value]="usuario.nombre">{{ usuario.nombre }}</option>
+          </select>
+        </div>
+        
+
+        <button type="submit" [disabled]="form.invalid">Añadir Tarea</button>
+      </form>
+
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="modal" *ngIf="isModalEditOpen">
+    <div class="modal-content">
+      <span class="close" (click)="closeModalEdit()">&times;</span>
+      <h2>Editar Tarea</h2>
+      <form (ngSubmit)="editarTarea()">
+        <label for="edit-task-name">Nombre de la Tarea</label>
+        <input type="text" id="edit-task-name" [(ngModel)]="selectedTarea.nombre" name="nombre" required>
+
+        <label for="edit-task-description">Descripción</label>
+        <textarea id="edit-task-description" [(ngModel)]="selectedTarea.descripcion" name="descripcion" rows="4"
+          cols="70"></textarea>
+
+        <label for="edit-task-due-date">Fecha de Vencimiento</label>
+        <input type="date" id="edit-task-due-date" [(ngModel)]="selectedTarea.fechaVencimiento" name="fechaVencimiento"
+          required>
+
+        <label for="edit-task-priority">Prioridad</label>
+        <select id="edit-task-priority" [(ngModel)]="selectedTarea.prioridad" name="prioridad">
+          <option value="ALTA">ALTA</option>
+          <option value="MEDIA">MEDIA</option>
+          <option value="BAJA">BAJA</option>
+        </select>
+
+        
+        <div>
+          <label for="edit-usuario">Asignar a:</label>
+          <select id="edit-usuario" [(ngModel)]="selectedTarea.asignadoA" name="asignadoA">
+            <option *ngFor="let usuario of usuarios" [value]="usuario.nombre">{{ usuario.nombre }}</option>
+          </select>
+        </div>
+
+        <button type="submit" [disabled]="selectedTarea.estado === 'DESARROLLADA'">Guardar Cambios</button>
+      </form>
+
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>
+    </div>
+  </div>
+</div>

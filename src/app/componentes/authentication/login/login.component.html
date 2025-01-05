@@ -1,0 +1,45 @@
+<div class="log">
+  <img src="assets/img/logIzi.png" alt="">
+</div>
+
+<div class="contenedor">
+  <div class="izquierda">
+    <h2>INICIAR SESIÓN</h2>
+    <br>
+    <p>Si no tienes una cuenta registrada<br>
+      Puedes
+      <a href="/register">Registrarte aquí!</a>
+    </p>
+    <br>
+    <br>
+    <form (ngSubmit)="onLogin()">
+      <label for="user">Usuario o Email</label>
+      <div class="input-group">
+        <i class="fa-solid fa-user"></i>
+        <input type="text" id="user" placeholder="Ingresa tu usuario o email" [(ngModel)]="user" name="user" required />
+      </div>
+      <br>
+      <label for="password">Contraseña</label>
+      <div class="input-group">
+        <i class="fa-solid fa-lock"></i>
+        <input type="password" id="password" placeholder="Ingresa tu contraseña" [(ngModel)]="password" name="password" required />
+      </div>
+      <br>
+
+      <div *ngIf="errorMessage" class="error-message">
+        <p>{{ errorMessage }}</p>
+      </div>
+
+      <br>
+      <button type="submit" class="ingresar" [disabled]="isLoading">
+        {{ isLoading ? 'Ingresando...' : 'INGRESAR' }}
+      </button>
+    </form>
+  </div>
+
+  <div class="derecha">
+    <img src="assets/img/logotres.png" alt="">
+    <h1>To Do List</h1>
+    <p>Tu lista de tareas en un solo lugar</p>
+  </div>
+</div>

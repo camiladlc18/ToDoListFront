@@ -1,0 +1,228 @@
+.contenedor {
+  display: flex;
+  height: 100vh;
+  font-family: 'Poppins', sans-serif;
+}
+
+.logo {
+  width: 60px;
+  margin-bottom: 20px;
+}
+
+.log {
+  position: absolute;
+  top: 5px;
+  left: 20px;
+}
+
+.log img {
+  width: 110px;
+}
+
+h2 {
+  font-size: 22px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+p {
+  color: #555;
+  font-size: 12px;
+}
+
+a {
+  color: #0066cc;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 5px 0px 5px 0px;
+}
+
+.generar {
+  align-self: flex-start;
+  cursor: pointer;
+  margin-top: 10px;
+  margin-right: 5px;
+  background-color: #0044cc;
+  color: white;
+  padding: 5px 5px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  width: 100px;
+  font-size: 12px;
+}
+
+input {
+  flex: 1;
+}
+
+label {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.lblGenerar {
+  display: block;
+}
+
+.columna {
+  width: 70%;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+  width: 100%;
+  border: none;
+  border-bottom: 2px solid #333;
+  outline: none;
+  font-size: 12px;
+}
+
+.icon {
+  position: absolute;
+  top: 10px;
+  left: 5px;
+  font-size: 12px;
+  color: #333;
+  z-index: 1;
+}
+
+.ingresar {
+  background-color: #0044cc;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 12px;
+  margin-top: 30px;
+}
+
+.ingresar:hover {
+  background-color: navy;
+  transition: 0.7s;
+}
+
+.izquierda {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  margin: 2% 0px 0px 14%;
+}
+
+.formulary {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.derecha {
+  flex: 1;
+  background-color: #000842;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 60px;
+  margin: 20px 30px 20px 0px;
+  border-radius: 40px;
+}
+
+.derecha img {
+  width: 100%;
+  height: 100%;
+}
+
+.derecha h3 {
+  align-self: flex-start;
+  font-size: 24px;
+  margin-top: 0%;
+}
+
+.derecha p {
+  align-self: flex-start;
+  color: #a9a9a9;
+  font-size: 16px;
+  margin-top: 0%;
+}
+
+.mensaje-usuario {
+  margin-top: 5px;
+  padding: 8px;
+  border-radius: 4px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.mensaje-error {
+  background-color: #ffe6e6;
+  color: #dc3545;
+  border: 1px solid #dc3545;
+}
+
+.mensaje-exito {
+  background-color: #e6ffe6;
+  color: #28a745;
+  border: 1px solid #28a745;
+}
+
+.invalid {
+  width: 100%;
+  margin-top: 0.25rem;
+  font-size: 90%;
+  color: #dc3545;
+}
+
+.is-invalid {
+  border-color: #dc3545 !important;
+  background-color: #fff;
+}
+
+.invalid-feedback {
+  display: block;
+  width: 100%;
+  margin-top: 0.25rem;
+  font-size: 80%;
+  color: #dc3545;
+}
+
+.input-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 5px 0px 5px 0px;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 120px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #666;
+  z-index: 2;
+
+  &:hover {
+    color: #333;
+  }
+}
+
+i.fa-solid.fa-eye,
+i.fa-solid.fa-eye-slash {
+  font-size: 14px;
+}
